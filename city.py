@@ -83,7 +83,7 @@ class Farmer(City):
     def plant_seed():
        print('which seed will you plant?')
        choice = input(': ')
-       if not choice == 'wheat_seed' or choice == 'corn_seed' or choice == 'cabbage_seed' or choice == 'melon_seed':
+       if not choice == 'wheat_seed' and  choice == 'corn_seed' and choice == 'cabbage_seed' and choice == 'melon_seed':
            Farmer.plant_seed()
            
        if choice == 'wheat_seed': 
