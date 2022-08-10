@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Aug  8 09:46:15 2022
-
 @author: Mehmet
 """
 import numpy as np
@@ -81,12 +80,12 @@ class Farmer(City):
 
     # function of planting seeds
     def plant_seed():
-       print('which seed will you plant?')
-       choice = input(': ')
-       if not choice == 'wheat_seed' and  choice == 'corn_seed' and choice == 'cabbage_seed' and choice == 'melon_seed':
-           Farmer.plant_seed()
+       print(f'which seed will you plant?\n 1)wheat seed (you have {Farmer.inv["wheat_seed"]}) \n 2)corn seed (you have: {Farmer.inv["corn_seed"]}) \n 3)cabbage seed (you have: {Farmer.inv["cabbage_seed"]}) \n 4)melon seed (you have: {Farmer.inv["melon_seed"]}')
+       choice = int(input(': '))
+       # if not choice == 'wheat_seed' and  choice == 'corn_seed' and choice == 'cabbage_seed' and choice == 'melon_seed':
+           # Farmer.plant_seed()
            
-       if choice == 'wheat_seed': 
+       if choice == '1': 
            if Farmer.inv['wheat_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["wheat_seed"]})')
                seed_count = int(input(': '))
@@ -118,7 +117,7 @@ class Farmer(City):
            print('Returning to menu...')   
            time.sleep(1)
            Farmer.start_farmer() 
-       if choice == 'corn_seed':
+       if choice == '2':
            if Farmer.inv['corn_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["corn_seed"]})')
                seed_count = int(input(': '))
@@ -147,7 +146,7 @@ class Farmer(City):
                print('Returning to menu...')
                time.sleep(1)
                Farmer.start_farmer()             
-       if choice == 'cabbage_seed':
+       if choice == '3':
           if Farmer.inv['cabbage_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["cabbage_seed"]})')
                seed_count = int(input(': '))
@@ -176,7 +175,7 @@ class Farmer(City):
                print('Returning to menu...')
                time.sleep(1)
                Farmer.start_farmer() 
-       if choice == 'melon_seed':
+       if choice == '4':
            if Farmer.inv['melon_seed'] > 0:
                 print(f'how many seed will you plant?  (you have {Farmer.inv["melon_seed"]})')
                 seed_count = int(input(': '))
@@ -335,5 +334,3 @@ class Farmer(City):
             time.sleep(1)
             Farmer.start_farmer()
 destiny()
-        
-        
