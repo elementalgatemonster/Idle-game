@@ -81,11 +81,11 @@ class Farmer(City):
     # function of planting seeds
     def plant_seed():
        print(f'which seed will you plant?\n 1)wheat seed (you have {Farmer.inv["wheat_seed"]}) \n 2)corn seed (you have: {Farmer.inv["corn_seed"]}) \n 3)cabbage seed (you have: {Farmer.inv["cabbage_seed"]}) \n 4)melon seed (you have: {Farmer.inv["melon_seed"]}')
-       choice = int(input(': '))
+       choice = int(input(':'))
        # if not choice == 'wheat_seed' and  choice == 'corn_seed' and choice == 'cabbage_seed' and choice == 'melon_seed':
            # Farmer.plant_seed()
            
-       if choice == '1': 
+       if choice == 1: 
            if Farmer.inv['wheat_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["wheat_seed"]})')
                seed_count = int(input(': '))
@@ -117,7 +117,7 @@ class Farmer(City):
            print('Returning to menu...')   
            time.sleep(1)
            Farmer.start_farmer() 
-       if choice == '2':
+       if choice == 2:
            if Farmer.inv['corn_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["corn_seed"]})')
                seed_count = int(input(': '))
@@ -146,7 +146,7 @@ class Farmer(City):
                print('Returning to menu...')
                time.sleep(1)
                Farmer.start_farmer()             
-       if choice == '3':
+       if choice == 3:
           if Farmer.inv['cabbage_seed'] > 0:
                print(f'how many seed will you plant? (you have {Farmer.inv["cabbage_seed"]})')
                seed_count = int(input(': '))
@@ -175,7 +175,7 @@ class Farmer(City):
                print('Returning to menu...')
                time.sleep(1)
                Farmer.start_farmer() 
-       if choice == '4':
+       if choice == 4:
            if Farmer.inv['melon_seed'] > 0:
                 print(f'how many seed will you plant?  (you have {Farmer.inv["melon_seed"]})')
                 seed_count = int(input(': '))
