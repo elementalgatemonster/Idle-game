@@ -2,6 +2,7 @@
 """
 Created on Mon Aug  8 09:46:15 2022
 @author: Mehmet
+
 """
 import numpy as np
 import time
@@ -24,11 +25,22 @@ class City:
     
 #Farmer job    
 class Farmer():
+
+
+    # leveling
+    level = 1
+    level_maxp = 1000
+    level_curxp = 0
+    if level_curxp == level_maxp:
+        level += 1
+        level_curxp = 0
+        level_maxp += 200
     
-  
+
+
     property = {'field':1,'tiny_house':1}
 
-    inv = {'money':15,'wheat_seed':15,
+    inv = {'money':50,'wheat_seed':10,
            'corn_seed':0,'cabbage_seed':0,
            'melon_seed':0,'wheat':0,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
     
@@ -51,6 +63,7 @@ class Farmer():
         if choice < 1 or choice > 7:
             print("you typing wrong")
             Farmer.start_farmer()
+
         if choice == 1:   
             print("INVENTORY")
             for k,v in Farmer.inv.items():
@@ -67,20 +80,27 @@ class Farmer():
                    print(f"|{k}  ({v}) ")       
             time.sleep(2)
             Farmer.start_farmer()
+
         if choice == 2:
              Farmer.plant_seed()
+
         if choice == 3:
             print('this feature will come soon')
             time.sleep(1)
             Farmer.start_farmer()
+
         if choice == 4:
             Farmer.sell()
+
         if choice == 5:
             Farmer.buy()
+
         if choice == 6:
-            Farmer.crafting()    
+            Farmer.crafting()
+
         if choice == 7:
-            Farmer.retirement()    
+            Farmer.retirement()
+                
 
     #showing current inventory    
 
@@ -123,10 +143,12 @@ class Farmer():
 
        if choice < 0 or choice > 5:
            Farmer.plant_seed()    
+
        if choice == 0:
            print('|backing to menu...')
            time.sleep(1)
-           Farmer.start_farmer() 
+           Farmer.start_farmer()
+
        if choice == 1: 
            if Farmer.inv['wheat_seed'] > 0:
                
@@ -169,16 +191,19 @@ class Farmer():
                for c,i in enumerate(list(np.ones(seed_count)), 1):
                        success = random.randrange(0,100)
                        
+                       
                        if success > 30:
                            print(f'|        {c}.crop have grown!')             
-                           Farmer.inv['wheat'] += i*2
-                           Farmer.wheat_seed_field = 0                    
-                           time.sleep(0.1)   
+                           # Farmer.inv['wheat'] += i*2
+                           # Farmer.level_curxp += 50
+                           # print(f"experience gained {farmer.level_curxp}")                   
+                           time.sleep(0.1)
 
                        else:
                            print(f'|        {c}.crop was not successful...')  
                            time.sleep(0.1) 
                            
+
                print("|returning to menu...")
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
@@ -187,7 +212,7 @@ class Farmer():
        if choice == 2:
            
            if Farmer.inv['corn_seed'] > 0:
-               print(f'|how many seed will you plant? (you have {Farmer.inv["corn_seed"]})')
+               print(f'|how many seed will you plant? (you have {Farmer.inv["corn_seed"]} seed and {Farmer.field_size})')
 
                try: 
                   seed_count = int(input(": "))
@@ -206,7 +231,7 @@ class Farmer():
                    print('|you dont have enough field')
                    time.sleep(1)
                    Farmer.plant_seed()
-               else:  
+               else: 
                     Farmer.inv['corn_seed'] -= seed_count
                     Farmer.empty_field_size -= seed_count
                     Farmer.wheat_seed_field += seed_count
@@ -272,6 +297,8 @@ class Farmer():
                            Farmer.cabbage_seed_field = 0                    
                            time.sleep(0.1) 
                            
+
+
                        else:
                            print(f'|{c}.crop planted was not successful...')
                            time.sleep(0.1) 
@@ -463,9 +490,7 @@ class Farmer():
         except ValueError:
            print("|you typing wrong!")
            Farmer.buy()    
-        if choice < 0 or choice > 2:
-           print("|you typing wrong!")
-           Farmer.buy()  
+
 
         if choice == 0:
             print('returning to menu...')
@@ -588,9 +613,9 @@ class Farmer():
             try: 
                 choice = int(input(": "))
             except ValueError:    
-                    print("|you typing wrong!")
+                    print("|You typing wrong!.")
             if choice < 0 or choice > 2:
-                print("|you typing wrong!")
+                print("|You typing wrong!.")
                 Farmer.buy()
             if choice == 0:
                 print("returning menu...")
@@ -599,18 +624,18 @@ class Farmer():
             if choice == 1:
 
                 try: 
-                    print("how much you wanna buy?")
+                    print("How much you wanna buy?")
                     amount = int(input(": "))
                 except ValueError:    
-                    print("|you typing wrong!")
+                    print("|You typing wrong!")
                     Farmer.start_farmer()  
                     
                 price = amount * 350
-                print(f'|Buying {amount} amount of field..')    
+                print(f'|Buying {amount} amount of field...')    
                 time.sleep(1)
 
                 if price > Farmer.inv['money']:
-                    print('|you dont have enough money')
+                    print('|You dont have enough money.')
                     time.sleep(1)
                     Farmer.buy()
                 
@@ -619,7 +644,7 @@ class Farmer():
                 Farmer.buy() 
 
             if choice == 2:
-                print('Field increases your plant area (25 unit)')
+                print('|Field increases your plant area (25 unit)')
                 time.sleep(1)
                 Farmer.buy()
                     
@@ -627,7 +652,7 @@ class Farmer():
     def crafting():
         print("")
         print('CRAFT')
-        print("|1)food 2)exit")
+        print("|0)Exit \n|1)Food")
         
         try:
            choice = int(input())
@@ -635,22 +660,30 @@ class Farmer():
            print("|you typing wrong!")
            Farmer.crafting()    
 
-        if choice < 1 or choice > 2:
+        if choice < 0 or choice > 1:
             print("|you typing wrong!")
             Farmer.crafting()
 
-        if choice == 1:
-          print("|1)Dough(3 Wheat)\n2)Bread(1 Dough)\n")
+        if choice == 0:
+            Farmer.start_farmer()
 
+        if choice == 1:
+          print("|0)Exit\n|1)Dough(3 Wheat)\n|2)Bread(1 Dough)\n")
           try:
            choice = int(input())
           except ValueError:
            print("|you typing wrong!")
            Farmer.crafting()    
 
-          if choice < 1 or choice > 2:
+          if choice < 0 or choice > 2:
            print("|you typing wrong!")
            time.sleep(1)
+           Farmer.crafting()
+          
+          if choice == 0:
+              print("|Returning menu...")
+              time.sleep(1)
+              Farmer.start_farmer()
 
           if choice == 1:
               
@@ -669,13 +702,14 @@ class Farmer():
 
 
               Farmer.inv['wheat'] -= 3*n
-              print(f"|You maked {n} dought!")
+              print(f"|You made {n} dought!")
               time.sleep(1)
               Farmer.inv['dought'] += n
               s = 0 + Farmer.inv['dought']
               Farmer.crafting()
 
-          
+
+        
           if choice == 2:
               
               print(f"|how many bread will you make? (you have {Farmer.inv['dought']} dought)")
@@ -692,11 +726,12 @@ class Farmer():
                   Farmer.start_farmer()
 
               Farmer.inv['dought'] -= 1*n
-              print(f'|You maked {n} bread!')
+              print(f'|You made {n} bread!')
               time.sleep(1)
               Farmer.inv['bread'] += n
               s = 0 + Farmer.inv['dought']
               Farmer.crafting()
+
 
         if choice == 2:
 
@@ -704,14 +739,36 @@ class Farmer():
             time.sleep(1)  
             Farmer.start_farmer()
         pass        
-
+            
+    
     # end of the game
     def retirement():
         print("")
         print('RETIREMENT')
         print(f'|You must pay 1000$ for retirement debt (you must pay {Farmer.inv["retirement_p"]} more!)')
         print("|you wanna pay? (1-yes 2-no)")
+        
+        if Farmer.inv['retirement_p'] == 0:
+            print("|You paid all of your retirement debt, you can rest all of your life")
+            print("|1-rest? 2-NO")
+            try:
+                        
+                        choice = int(input())
+                        
+                        if choice == 1:
+                            print("Congrats!, you can rest all of your life time!")
+                            
 
+                        if choice == 2:
+                            print("You will be never know how to get tired, lets back!")    
+                            Farmer.start_farmer()
+                        
+            except ValueError:
+                        print("you typing wrong!")
+                        Farmer.retirement()    
+
+            
+        
         try:
            choice = int(input())
         except ValueError:
@@ -729,22 +786,7 @@ class Farmer():
             Farmer.inv['money'] -= 1000
             Farmer.inv['retirement_p'] -= 1
             print(f"|Congrats! you paid debt! ")
-
-        elif Farmer.inv['retirement_p'] == 0:
-            print("|You paid all of your retirement debt, you can rest all of your life")
-            print("|1-rest? 2-NO")
-            while not ValueError:
-                    try:
-                        choice = int(input())
-                    except ValueError:
-                        print("|you typing wrong!")
-                        print("|you paid all of your retirement debt, you can rest")
-                        print("|1-rest? 2-NO")
-
-                        if choice == 2:
-                            print("|returning to menu...")
-                            time.sleep(1)
-                            Farmer.start_farmer()
+            Farmer.start_farmer()
 
         if choice == 2:
             print("|returning to menu...")
@@ -759,5 +801,6 @@ class Lumberjack(City):
      #   a,s,d,f,g,h,j,k = random.randint(0,7)
       #  while i == x:
        #   print(f"[{}][{}][{}][{}][{}][{}][{}][{}][{}]")
-        
+
+
 destiny()
