@@ -31,12 +31,11 @@ class Farmer():
     level = 1
     level_maxp = 1000
     level_curxp = 0
-    if level_curxp == level_maxp:
+    if level_curxp >= level_maxp:
         level += 1
-        level_curxp = 0
+        level_curxp -= level_maxp
         level_maxp += 200
-    
-
+        
 
     property = {'field':1,'tiny_house':1}
 
@@ -49,7 +48,7 @@ class Farmer():
     #where job begins
     def start_farmer():    
         
-        print('Choose your action, 1-Check inventory, 2-Plant seed, 3-Check plants, 4-Sell, 5-Buy, 6-Crafting, 7-Retirement')
+        print('Choose your action, 1-Check inventory, 2-Planting seed, 3-Character status, 4-Sell, 5-Buy, 6-Crafting, 7-Retirement')
         time.sleep(1)
 
         try: 
@@ -85,9 +84,7 @@ class Farmer():
              Farmer.plant_seed()
 
         if choice == 3:
-            print('this feature will come soon')
-            time.sleep(1)
-            Farmer.start_farmer()
+            Farmer.character_s()
 
         if choice == 4:
             Farmer.sell()
@@ -151,7 +148,7 @@ class Farmer():
 
        if choice == 1: 
            if Farmer.inv['wheat_seed'] > 0:
-               
+               exptotal = 0
                print(f'|how many seed will you plant? (you have {Farmer.inv["wheat_seed"]})')
                try: 
                   seed_count = int(input(": "))
@@ -170,8 +167,6 @@ class Farmer():
                    print('|Returning to menu...')   
                    time.sleep(1)
                    Farmer.start_farmer()
-               print(Farmer.field_size)
-               print(Farmer.property['field'])
                if  seed_count > Farmer.field_size * Farmer.property['field']: 
                    print('|you dont have enough field')
                    time.sleep(1)
@@ -190,20 +185,25 @@ class Farmer():
 
                for c,i in enumerate(list(np.ones(seed_count)), 1):
                        success = random.randrange(0,100)
-                       
-                       
+            
                        if success > 30:
                            print(f'|        {c}.crop have grown!')             
-                           # Farmer.inv['wheat'] += i*2
-                           # Farmer.level_curxp += 50
-                           # print(f"experience gained {farmer.level_curxp}")                   
+                           Farmer.inv['wheat'] += i*2
+                           
+                           exptotal += 25
+                           Farmer.level_curxp += 25
+
                            time.sleep(0.1)
 
+
                        else:
-                           print(f'|        {c}.crop was not successful...')  
+                           print(f'|        {c}.crop was not successful...') 
+                           exptotal += 5
+                           Farmer.level_curxp += 5 
                            time.sleep(0.1) 
                            
 
+               print(f"you gained {exptotal} experience...")                                 
                print("|returning to menu...")
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
@@ -212,10 +212,14 @@ class Farmer():
        if choice == 2:
            
            if Farmer.inv['corn_seed'] > 0:
+               exptotal = 0
                print(f'|how many seed will you plant? (you have {Farmer.inv["corn_seed"]} seed and {Farmer.field_size})')
 
                try: 
                   seed_count = int(input(": "))
+                  Farmer.inv['wheat'] += i*2
+                  
+
                except ValueError:    
                   print("|you typing wrong!")
                   Farmer.start_farmer()      
@@ -244,14 +248,20 @@ class Farmer():
                for c,i in enumerate(list(np.ones(seed_count)), 1):
                        success = random.randrange(0,100)
                        if success > 30:
-                           print(f'|{c}.crop have grown!')             
+                           print(f'|{c}.crop have grown!')     
+                           exptotal += 50        
+                           Farmer.level_curxp += 50
                            Farmer.inv['corn'] += i
                            Farmer.corn_seed_field = 0                    
                            time.sleep(0.1) 
                            
                        else:
                            print(f'|{c}.crop planted was not successful...')
+                           exptotal += 5
+                           Farmer.level_curxp += 5
                            time.sleep(0.1) 
+
+               print(f"you gained {exptotal} experience...")                
                print('|Returning to menu...')
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
@@ -260,6 +270,7 @@ class Farmer():
        if choice == 3:
           
           if Farmer.inv['cabbage_seed'] > 0:
+               exptotal = 0
                print(f'|how many seed will you plant? (you have {Farmer.inv["cabbage_seed"]})')
 
                try: 
@@ -292,7 +303,9 @@ class Farmer():
                for c,i in enumerate(list(np.ones(seed_count)), 1):
                        success = random.randrange(0,100)
                        if success > 30:
-                           print(f'|{c}.crop have grown!')             
+                           print(f'|{c}.crop have grown!')  
+                           exptotal += 100 
+                           Farmer.level_curxp += 100          
                            Farmer.inv['cabbage'] += i
                            Farmer.cabbage_seed_field = 0                    
                            time.sleep(0.1) 
@@ -301,8 +314,11 @@ class Farmer():
 
                        else:
                            print(f'|{c}.crop planted was not successful...')
+                           exptotal += 5
+                           Farmer.level_curxp += 5
                            time.sleep(0.1) 
-            
+
+               print(f"you gained {exptotal} experience...")      
                print('|Returning to menu...')
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
@@ -310,6 +326,7 @@ class Farmer():
                
        if choice == 4:
            if Farmer.inv['melon_seed'] > 0:
+                exptotal = 0
                 print(f'|how many seed will you plant?  (you have {Farmer.inv["melon_seed"]})')
                 try: 
                   seed_count = int(input(": "))
@@ -340,14 +357,20 @@ class Farmer():
                 for c,i in enumerate(list(np.ones(seed_count)), 1):
                         success = random.randrange(0,100)
                         if success > 45:
-                            print(f'|{c}.crop have grown!')             
+                            print(f'|{c}.crop have grown!')     
+                            exptotal += 150
+                            Farmer.level_curxp += 150        
                             Farmer.inv['melon'] += i*3
                             Farmer.cabbage_seed_field = 0                    
                             time.sleep(0.1) 
                             
                         else:
                             print(f'|{c}.crop planted was not successful...')
+                            exptotal += 5
+                            Farmer.level_curxp += 5
                             time.sleep(0.1) 
+
+                print(f"you gained {exptotal} experience...")                  
                 print('|Returning to menu...')
                 time.sleep(1)
                 Farmer.empty_field_size = Farmer.field_size
@@ -793,6 +816,16 @@ class Farmer():
             time.sleep(1)
             Farmer.start_farmer()
 
+
+    def character_s():
+        print("#################")
+        print(f"#   Character Level: {Farmer.level}           #")
+        print(f"#   Current Experience: {Farmer.level_curxp}         #")
+        print(f"#   You need {Farmer.level_maxp - Farmer.level_curxp} experience to be level {Farmer.level + 1}  #")       
+        time.sleep(3)
+        print("|returning to menu...")
+        Farmer.start_farmer()
+    
 #Lumberjack
 class Lumberjack(City):
     pass
