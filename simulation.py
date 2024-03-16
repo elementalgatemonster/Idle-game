@@ -14,7 +14,7 @@ def destiny():
     print('what job will you choose? (Available jobs: Farmer)')
     job = input(': ')
     job = job.lower()
-    if job == 'farmer':
+    if job == 'farmer' or '1':
         print('Welcome to your new farmer life, never forget that you are one of the things that built civilization so lets begin!')
         Farmer.start_farmer()
     else:
@@ -28,20 +28,18 @@ class Farmer():
 
 
     # leveling
+    
     level = 1
     level_maxp = 1000
     level_curxp = 0
-    if level_curxp >= level_maxp:
-        level += 1
-        level_curxp -= level_maxp
-        level_maxp += 200
+
         
 
-    property = {'field':1,'tiny_house':1}
+    property = {'field':1,'tiny_house':1,'scythe':0,'shovel':0,'truck':0,}
 
-    inv = {'money':50,'wheat_seed':10,
+    inv = {'money':50,'wheat_seed':170,
            'corn_seed':0,'cabbage_seed':0,
-           'melon_seed':0,'wheat':0,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
+           'melon_seed':0,'wheat':150,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
     
     
                 
@@ -97,6 +95,8 @@ class Farmer():
 
         if choice == 7:
             Farmer.retirement()
+
+    
                 
 
     #showing current inventory    
@@ -213,11 +213,13 @@ class Farmer():
            
            if Farmer.inv['corn_seed'] > 0:
                exptotal = 0
-               print(f'|how many seed will you plant? (you have {Farmer.inv["corn_seed"]} seed and {Farmer.field_size})')
+               print(f'|how many seed will you plant? (you have {Farmer.inv["corn_seed"]})')
 
                try: 
                   seed_count = int(input(": "))
-                  Farmer.inv['wheat'] += i*2
+               except ValueError:    
+                  print("|you typing wrong!")
+                  Farmer.start_farmer() 
                   
 
                except ValueError:    
@@ -356,7 +358,7 @@ class Farmer():
                 time.sleep(1)
                 for c,i in enumerate(list(np.ones(seed_count)), 1):
                         success = random.randrange(0,100)
-                        if success > 45:
+                        if success > 85:
                             print(f'|{c}.crop have grown!')     
                             exptotal += 150
                             Farmer.level_curxp += 150        
@@ -383,7 +385,7 @@ class Farmer():
         print(f"|Balance {Farmer.inv['money']}")
         print('|what will you sell?')
         print('|Sell Menu')
-        print(f'|1)Wheat (0.5 $) ({Farmer.inv["wheat"]}) \n|2)Corn (1 $) ({Farmer.inv["corn"]})\n|3)Cabbage (1.25 $) ({Farmer.inv["cabbage"]})\n|4)Melon (3 $) ({Farmer.inv["melon"]}) \n|5)Bread (5$) ({Farmer.inv["bread"]})\n|0)Back to menu')
+        print(f'|1)Wheat (0.5 $) ({Farmer.inv["wheat"]}) \n|2)Corn (1 $) ({Farmer.inv["corn"]})\n|3)Cabbage (1.25 $) ({Farmer.inv["cabbage"]})\n|4)Melon (2.75 $) ({Farmer.inv["melon"]}) \n|5)Bread (2.75$) ({Farmer.inv["bread"]})\n|0)Back to menu')
 
         try:
            choice = int(input())
@@ -429,6 +431,7 @@ class Farmer():
             Farmer.inv['money'] += value
             Farmer.inv['corn'] -= amount
             Farmer.sell()
+            
 
         if choice == 3:
             try: 
@@ -461,7 +464,7 @@ class Farmer():
                 Farmer.sell()
             print(f'|Selling {amount} melon...') 
             time.sleep(2)
-            value = amount * 3
+            value = amount * 2.75
             Farmer.inv['money'] += value
             Farmer.inv['melon'] -= amount
             Farmer.sell()
@@ -486,7 +489,7 @@ class Farmer():
                 Farmer.sell()
             print(f'|selling {amount} bread...')
             time.sleep(2)
-            value = amount * 5
+            value = amount * 2.75
             Farmer.inv['money'] += value
             Farmer.inv['bread'] -= amount    
 
@@ -497,6 +500,7 @@ class Farmer():
         else:
             print('|you dont have this')
             Farmer.sell()
+
     # buying         
     def buy():
         print("")
@@ -504,6 +508,7 @@ class Farmer():
         print(f"|Balance: {Farmer.inv['money']}")
         print('|what will you buy?')
         print('|1)Seeds 2)Properties 0)Exit')
+
         
 
         time.sleep(1)
@@ -532,7 +537,8 @@ class Farmer():
                 Farmer.start_farmer()
 
             if choice == 1:
-                print('|1)Wheat seed(0.25 $)\n2)Corn seed(0.75 $)\n3)Cabbage seed(1 $)\n4)Melon seed(2 $)\n0)Back to menu')
+                print(f"| balance: {Farmer.inv['money']}")
+                print('| 1)Wheat seed(0.25 $)\n2)Corn seed(0.75 $)\n3)Cabbage seed(1 $)\n4)Melon seed(2 $)\n0)Back to menu')
                 try: 
                     choice = int(input(": "))
                 except ValueError:    
@@ -546,6 +552,7 @@ class Farmer():
 
                 if choice == 1:    
                     try: 
+                        print("how many you will buy?")
                         amount = int(input(": "))
                     except ValueError:    
                         print("|you typing wrong!")
@@ -566,6 +573,7 @@ class Farmer():
 
                 if choice == 2:
                     try: 
+                        print("how many you will buy?")
                         amount = int(input(": "))
                     except ValueError:    
                         print("|you typing wrong!")
@@ -587,6 +595,7 @@ class Farmer():
                 if choice == 3:
 
                     try: 
+                        print("how many you will buy?")
                         amount = int(input(": "))
                     except ValueError:    
                         print("|you typing wrong!")
@@ -609,6 +618,7 @@ class Farmer():
                 if choice == 4:
 
                     try: 
+                        print("how many you will buy?")
                         amount = int(input(": "))
                     except ValueError:    
                         print("|you typing wrong!")
@@ -762,7 +772,7 @@ class Farmer():
             time.sleep(1)  
             Farmer.start_farmer()
         pass        
-            
+               
     
     # end of the game
     def retirement():
@@ -773,7 +783,7 @@ class Farmer():
         
         if Farmer.inv['retirement_p'] == 0:
             print("|You paid all of your retirement debt, you can rest all of your life")
-            print("|1-rest? 2-NO")
+            print("|1-rest? 2-NO!")
             try:
                         
                         choice = int(input())
@@ -805,7 +815,7 @@ class Farmer():
 
             if Farmer.inv['money'] < 1000:
                 print("|you dont have enough money!")
-                Farmer.retirement()
+                Farmer.start_farmer()
             Farmer.inv['money'] -= 1000
             Farmer.inv['retirement_p'] -= 1
             print(f"|Congrats! you paid debt! ")
@@ -818,10 +828,16 @@ class Farmer():
 
 
     def character_s():
+       
+        while Farmer.level_curxp >= Farmer.level_maxp:
+            Farmer.level += 1
+            Farmer.level_curxp -= Farmer.level_maxp
+            Farmer.level_maxp += (Farmer.level_maxp / 2)            
+
         print("#################")
         print(f"#   Character Level: {Farmer.level}           #")
-        print(f"#   Current Experience: {Farmer.level_curxp}         #")
-        print(f"#   You need {Farmer.level_maxp - Farmer.level_curxp} experience to be level {Farmer.level + 1}  #")       
+        print(f"#   Current Experience: {Farmer.level_curxp}      #")
+        print(f"#   You need {Farmer.level_maxp - Farmer.level_curxp} to be level {Farmer.level + 1}  #")       
         time.sleep(3)
         print("|returning to menu...")
         Farmer.start_farmer()
@@ -834,6 +850,6 @@ class Lumberjack(City):
      #   a,s,d,f,g,h,j,k = random.randint(0,7)
       #  while i == x:
        #   print(f"[{}][{}][{}][{}][{}][{}][{}][{}][{}]")
-
+    
 
 destiny()
