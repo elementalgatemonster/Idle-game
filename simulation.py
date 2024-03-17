@@ -98,6 +98,8 @@ class Farmer():
         if choice == 7:
             Farmer.retirement()
 
+        if choice == 8:
+            Farmer.rent()
     
                 
 
