@@ -143,7 +143,7 @@ class Farmer():
                 print("You still have time to pay, come back when your day has come. ")
                 time.sleep(2)
                 Farmer.start_farmer()
-
+  
             if Farmer.inv['money'] < 150:
                 print("you dont have enough money")
                 time.sleep(1)
@@ -151,7 +151,10 @@ class Farmer():
             print("Paying rent...")
             Farmer.inv['money'] -= 150
             Farmer.d = 15
-
+        if choice == 0:
+            print("returning menu...")
+            time.sleep(1)
+            Farmer.start_farmer()
     # function of planting seeds
     def plant_seed():
        print("")
