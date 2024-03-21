@@ -26,9 +26,10 @@ class City:
 #Farmer job    
 class Farmer():
     # rent
-    d = 15
-    rent = 150
 
+    d = 30
+    rent = 150
+    
     # leveling
     
     level = 1
@@ -41,7 +42,7 @@ class Farmer():
 
     inv = {'money':50,'wheat_seed':10,
            'corn_seed':0,'cabbage_seed':0,
-           'melon_seed':0,'wheat':150,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
+           'melon_seed':0,'wheat':0,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
     
     
                 
@@ -143,18 +144,20 @@ class Farmer():
                 print("You still have time to pay, come back when your day has come. ")
                 time.sleep(2)
                 Farmer.start_farmer()
-  
+
             if Farmer.inv['money'] < 150:
                 print("you dont have enough money")
                 time.sleep(1)
                 Farmer.start_farmer()
             print("Paying rent...")
             Farmer.inv['money'] -= 150
-            Farmer.d = 15
+            Farmer.d += 30
         if choice == 0:
             print("returning menu...")
             time.sleep(1)
             Farmer.start_farmer()
+
+            
     # function of planting seeds
     def plant_seed():
        print("")
@@ -177,12 +180,9 @@ class Farmer():
        if choice == 0:
            print('|backing to menu...')
            time.sleep(1)
-           Farmer.start_farmer()
-           if Farmer.d <= 3:
-               print(f"you must pay after {Farmer.d} turn, otherwise you will lose your tiny home")
-               time.sleep(3)
+           Farmer.start_farmer()    
 
-           Farmer.d -= random.randint(1,3)
+           
 
        if choice == 1: 
            if Farmer.inv['wheat_seed'] > 0:
@@ -245,11 +245,18 @@ class Farmer():
                print("|returning to menu...")
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
-               if Farmer.d <= 3:
-                    print(f"you must pay after {Farmer.d} turn, otherwise you will lose your tiny home")
+
+               Farmer.d -= random.randint(1,3)   
+               if Farmer.d <= 5:
+                    print(f"you must pay in {Farmer.d} turn, otherwise you will lose your tiny home")
                time.sleep(3)
-               Farmer.d -= random.randint(1,3)
+               
+               if Farmer.d <= 0:
+                   print("You kicked out from your house, you LOSE")
+                   exit()
+               
                Farmer.plant_seed()
+              
                
        if choice == 2:
            
@@ -314,11 +321,17 @@ class Farmer():
                print('|Returning to menu...')
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
-               Farmer.plant_seed()             
-               if Farmer.d <= 3:
+               Farmer.d -= random.randint(1,3)                
+               if Farmer.d <= 5:
                     print(f"you must pay after {Farmer.d} turn, otherwise you will lose your tiny home")
                     time.sleep(3)
-               Farmer.d -= random.randint(1,3)
+               
+               if Farmer.d <= 0:
+                   print("You kicked out from your house, you LOSE")
+                   exit
+                   
+               Farmer.plant_seed()   
+
        if choice == 3:
           
           if not Farmer.level >= 5:
@@ -380,12 +393,16 @@ class Farmer():
                print('|Returning to menu...')
                time.sleep(1)
                Farmer.empty_field_size = Farmer.field_size
-               Farmer.start_farmer() 
+               Farmer.d -= random.randint(1,3)   
                if Farmer.d <= 3:
-                    print(f"you must pay after {Farmer.d} turn, otherwise you will lose your tiny home")
+                    print(f"you must pay in {Farmer.d} turn, otherwise you will lose your tiny home")
                     time.sleep(3)
-               Farmer.d -= random.randint(1,3)
-
+               
+               if Farmer.d <= 0:
+                   print("You kicked out from your house, you LOSE")
+                   exit()
+               
+               Farmer.plant_seed()   
        if choice == 4:
            
            if not Farmer.level >= 8:
@@ -442,11 +459,17 @@ class Farmer():
                 print('|Returning to menu...')
                 time.sleep(1)
                 Farmer.empty_field_size = Farmer.field_size
-                Farmer.start_farmer()   
-                if Farmer.d <= 3:
-                    print(f"you must pay after {Farmer.d} turn, otherwise you will lose your tiny home")
+                Farmer.d -= random.randint(1,3)      
+                if Farmer.d <= 4:
+                    print(f"you must pay in {Farmer.d} turn, otherwise you will lose your tiny home")
                     time.sleep(3)
-                Farmer.d -= random.randint(1,3)
+                
+                if Farmer.d <= 0:
+                   print("You kicked out from your house, you LOSE")
+                   exit()
+
+                 
+                Farmer.plant_seed()      
     # selling products            
     def sell():
         print("")
@@ -587,8 +610,11 @@ class Farmer():
         except ValueError:
            print("|you typing wrong!")
            Farmer.buy()    
-
-
+        if choice < 0 or choice > 2:
+            print("you typing wrong")
+            time.sleep(1)
+            Farmer.buy()
+ 
         if choice == 0:
             print('returning to menu...')
             time.sleep(1)
@@ -607,7 +633,7 @@ class Farmer():
 
             if choice == 1:
                 print(f"| balance: {Farmer.inv['money']}")
-                print('| 1)Wheat seed(0.25 $)\n2)Corn seed(0.75 $) (level 3)\n3)Cabbage seed(1 $) (level 5)\n4)Melon seed(2 $) (level 8) \n0)Back to menu')
+                print('| 1)Wheat seed(0.25 $)\n2)Corn seed(0.50 $) (level 3)\n3)Cabbage seed(1 $) (level 5)\n4)Melon seed(2 $) (level 8) \n0)Back to menu')
                 try: 
                     choice = int(input(": "))
                 except ValueError:    
@@ -653,7 +679,7 @@ class Farmer():
                         print("|you typing wrong!")
                         Farmer.start_farmer()      
 
-                    price = amount * 0.75
+                    price = amount * 0.50
                     print(f'|Buying {amount} corn seed...')    
                     time.sleep(1)
 
