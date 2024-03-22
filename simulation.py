@@ -25,6 +25,11 @@ class City:
     
 #Farmer job    
 class Farmer():
+
+    # luck 
+    l = 0
+    price_scythe,price_shovel,price_hoe = 0,0,0
+    
     # rent
 
     d = 30
@@ -36,7 +41,7 @@ class Farmer():
     level_maxp = 2500
     level_curxp = 0
 
-    equipment = {'scythe':0,'shovel':0,'hoe':0,} 
+    equipment = {'scythe':0,'shovel':0,'hoe':0} 
 
     property = {'field':1,'tiny_house':1,'truck':0,}
 
@@ -302,8 +307,8 @@ class Farmer():
                print('|Planted!')     
                time.sleep(1)
                for c,i in enumerate(list(np.ones(seed_count)), 1):
-                       success = random.randrange(0,100)
-                       if success > 30:
+                       success = random.randrange(0,100) + Farmer.l
+                       if success > 30: 
                            print(f'|{c}.crop have grown!')     
                            exptotal += 50        
                            Farmer.level_curxp += 50
@@ -372,7 +377,7 @@ class Farmer():
                time.sleep(1)
 
                for c,i in enumerate(list(np.ones(seed_count)), 1):
-                       success = random.randrange(0,100)
+                       success = random.randrange(0,100) + Farmer.l
                        if success > 30:
                            print(f'|{c}.crop have grown!')  
                            exptotal += 100 
@@ -440,7 +445,7 @@ class Farmer():
                 print('|Planted!')        
                 time.sleep(1)
                 for c,i in enumerate(list(np.ones(seed_count)), 1):
-                        success = random.randrange(0,100)
+                        success = random.randrange(0,100) + Farmer.l
                         if success > 85:
                             print(f'|{c}.crop have grown!')     
                             exptotal += 150
@@ -599,7 +604,7 @@ class Farmer():
         print('BUY')
         print(f"|Balance: {Farmer.inv['money']}")
         print('|what will you buy?')
-        print('|1)Seeds 2)Properties (level 5) \n 0)Exit')
+        print('|1)Seeds 2)Equipments 3)Properties (level 5) \n 0)Exit')
 
         
 
@@ -747,9 +752,55 @@ class Farmer():
                 Farmer.inv['money'] -= price
                 Farmer.buy()
             
-            
-
         if choice == 2:
+           
+           print(f"| balance: {Farmer.inv['money']}")
+           print(f'|1)Scythe (${85 * Farmer.equipment['scythe'] + }) (+3) (level 2) 2)Shovel (${Farmer.price_shovel * Farmer.equipment['shovel'] + 0.5 }) (+5) (level 5) 3)Hoe (${Farmer.price_hoe * Farmer.equipment['hoe'] + 0.5 }) (+10) (level 10) 0)Exit')
+           try:
+               choice = int(input())
+           except ValueError:
+               print("|you typing wrong!")
+               Farmer.buy()    
+           if choice < 0 or choice > 3:
+                print("|You typing wrong!.")
+                Farmer.buy()
+
+           if choice == 1:
+               if Farmer.inv['money'] >= Farmer.price_scythe:
+                   print('you dont have enough money')
+                   time.sleep(1)
+                   Farmer.buy()
+               print("Buying...")
+               print("Your chances have increased by 3%!")
+               Farmer.equipment['scythe'] += 1
+               if Farmer.equipment['scythe'] == 1:
+                   Farmer.
+               Farmer.l += 3
+
+           if choice == 2:
+               if Farmer.inv['money'] >= 150:
+                   print('you dont have enough money')
+                   time.sleep(1)
+                   Farmer.buy()
+               print("Buying...")
+               print("Your chances have increased by 5%!")
+               Farmer.l += 5
+
+           if choice == 3:
+               if Farmer.inv['money'] >= 500:
+                   print('you dont have enough money')
+                   time.sleep(1)
+                   Farmer.buy()
+               print("Buying...")
+               print("Your chances have increased by 10%!")
+               Farmer.l += 10
+
+           if choice == 0:
+               print('Returning menu...')
+               time.sleep(1)
+               Farmer.buy()
+
+        if choice == 3:
 
             if not Farmer.level >= 5:
                print("Your level is not enough")
