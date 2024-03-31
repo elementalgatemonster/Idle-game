@@ -25,17 +25,21 @@ class City:
     
 #Farmer job    
 class Farmer():
+    # names 
+    name = ("emma","sancar","ahmet","johnson","jaime","micheal","martin","polat","ismet","abuzer","lucifer","aykof","kral","imparator")
+    surname = ("jackson","graveth","taş","kingslayer","vivaldi","eastern","bringrope","kömürcü","çelik","alemdar","han","michealson","luther","terim","schrödinger")
 
     # luck 
     l = 0
-    price_scythe,price_shovel,price_hoe = 0,0,0
+    price_scythe,price_shovel,price_hoe = 1,1,1
     
     # rent
 
-    d = 30
+    d = 35
     rent = 150
     
     # leveling
+    251
     
     level = 1
     level_maxp = 2500
@@ -45,16 +49,18 @@ class Farmer():
 
     property = {'field':1,'tiny_house':1,'truck':0,}
 
-    inv = {'money':50,'wheat_seed':10,
+    inv = {'money':100,'wheat_seed':10,
            'corn_seed':0,'cabbage_seed':0,
            'melon_seed':0,'wheat':0,'corn':0,'cabbage':0,'melon':0,'dought':0,'bread':0,'retirement_p':3}
+    
+    workers = ()
     
     
                 
     #where job begins
     def start_farmer():    
         
-        print('Choose your action, 1-Check inventory, 2-Planting seed, 3-Character status, 4-Sell, 5-Buy, 6-Crafting, 7-Retirement, 8-Rent')
+        print('Choose your action, 1-Check inventory, 2-Planting seed, 3-Character status, 4-Sell, 5-Buy, 6-Crafting, 7-Retirement, 8-Rent, 9-Hirement')
         time.sleep(1)
 
         try: 
@@ -65,7 +71,7 @@ class Farmer():
         
         
         
-        if choice < 1 or choice > 8:
+        if choice < 1 or choice > 9:
             print("you typing wrong")
             Farmer.start_farmer()
 
@@ -83,9 +89,15 @@ class Farmer():
                     pass
                 else:
                    print(f"|{k}  ({v}) ")       
-            time.sleep(2)
+            time.sleep(2)           
+            print('-----------------------')
+            print('EQUIPMENTS')
+            for k,v in Farmer.equipment.items():
+                if v == 0:
+                    pass
+                else:
+                    print(f"|{k}  ({v}) ")
             Farmer.start_farmer()
-
         if choice == 2:
              Farmer.plant_seed()
 
@@ -106,7 +118,9 @@ class Farmer():
 
         if choice == 8:
             Farmer.rent()
-    
+        
+        if choice == 9:
+            Farmer.hirement()
                 
 
     #showing current inventory    
@@ -753,9 +767,23 @@ class Farmer():
                 Farmer.buy()
             
         if choice == 2:
-           
+           if Farmer.equipment['scythe'] == 1:
+               Farmer.price_scythe = 2
+           if Farmer.equipment['scythe'] >= 2:
+               Farmer.price_scythe = Farmer.equipment['scythe'] + 0.5    
+               
+           if Farmer.equipment['shovel'] == 1:
+               Farmer.price_shovel = 2.5
+           if Farmer.equipment['shovel'] >= 2:
+               Farmer.price_shovel = Farmer.equipment['shovel'] + 0.5
+
+           if Farmer.equipment['hoe'] == 1:
+               Farmer.price_hoe = 2.5
+           if Farmer.equipment['hoe'] >= 2:
+               Farmer.price_hoe = Farmer.equipment['hoe'] + 0.5
+
            print(f"| balance: {Farmer.inv['money']}")
-           print(f'|1)Scythe (${85 * Farmer.equipment['scythe'] + }) (+3) (level 2) 2)Shovel (${Farmer.price_shovel * Farmer.equipment['shovel'] + 0.5 }) (+5) (level 5) 3)Hoe (${Farmer.price_hoe * Farmer.equipment['hoe'] + 0.5 }) (+10) (level 10) 0)Exit')
+           print(f"|1)Scythe (${85 * Farmer.price_scythe}) (+3) (level 2) 2)Shovel (${125 * Farmer.price_shovel }) (+5) (level 5) 3)Hoe (${500 * Farmer.price_hoe}) (+10) (level 10) 0)Exit")
            try:
                choice = int(input())
            except ValueError:
@@ -766,34 +794,66 @@ class Farmer():
                 Farmer.buy()
 
            if choice == 1:
-               if Farmer.inv['money'] >= Farmer.price_scythe:
+               
+               if Farmer.inv['money'] < 85 * Farmer.price_scythe:
                    print('you dont have enough money')
                    time.sleep(1)
                    Farmer.buy()
+               Farmer.inv['money'] -= 85 * Farmer.price_scythe
                print("Buying...")
-               print("Your chances have increased by 3%!")
+              
+
                Farmer.equipment['scythe'] += 1
-               if Farmer.equipment['scythe'] == 1:
-                   Farmer.
+               if Farmer.equipment['scythe'] > 1:
+                  print("You already using one, sending inventory...")
+                  time.sleep(2)
+                  Farmer.buy()
+                  
+               print("Your chances have increased by 3%!")
                Farmer.l += 3
+               time.sleep(2)
+               Farmer.buy()
 
            if choice == 2:
-               if Farmer.inv['money'] >= 150:
+               if Farmer.inv['money'] < 150 * Farmer.price_shovel:
                    print('you dont have enough money')
                    time.sleep(1)
                    Farmer.buy()
                print("Buying...")
+               
+               Farmer.inv['money'] -= 150 * Farmer.price_shovel
+               Farmer.equipment['shovel'] += 1
+
+               if Farmer.equipment['shovel'] > 1:
+                  print("You already using one, sending inventory...")
+                  time.sleep(2)
+                  Farmer.buy()
+
                print("Your chances have increased by 5%!")
                Farmer.l += 5
+               time.sleep(2)
+               Farmer.buy()
 
            if choice == 3:
-               if Farmer.inv['money'] >= 500:
+               
+               if Farmer.inv['money'] < 500 * Farmer.price_hoe:
                    print('you dont have enough money')
                    time.sleep(1)
                    Farmer.buy()
                print("Buying...")
+               
+               Farmer.inv['money'] -= 500 * Farmer.price_hoe
+               Farmer.equipment['hoe'] += 1
+
+               if Farmer.equipment['hoe'] > 1:
+                  print("You already using one, sending inventory...")
+                  time.sleep(2)
+                  Farmer.buy()
+                  
                print("Your chances have increased by 10%!")
                Farmer.l += 10
+               time.sleep(2)
+               Farmer.buy()
 
            if choice == 0:
                print('Returning menu...')
@@ -1017,8 +1077,35 @@ class Farmer():
         time.sleep(3)
         print("|returning to menu...")
         Farmer.start_farmer()
-    
-    
+
+    def hirement():
+            
+            name_rand = Farmer.name[random.randint(0,13)]
+            surname_rand = Farmer.surname[random.randint(0,14)]
+            print("---------Select---------")
+            print("--Name--")
+            print(name_rand,surname_rand)
+            
+            try:
+                print("1-Keep 2-Look others")
+                choice = int(input())
+            except ValueError:
+                print("|you typing wrong!")
+                Farmer.hirement()
+
+            if choice == 1:
+                new_rec = (name_rand,surname_rand)
+                print("Congrats!, your new choice ")
+                Farmer.hirement()
+
+            if choice == 2:
+                Farmer.hirement()
+            if choice < 1 or choice > 2:
+                print("|you typing wrong!")
+                Farmer.hirement()
+
+                
+            
 #Lumberjack
 class Lumberjack(City):
     pass
